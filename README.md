@@ -2,13 +2,12 @@ analise-devbigdata
 ==============================
 
 # Description
-Projeto para o TCC
+Code project for the study and production of the article "How Can We Measure Developer Contribution and How Does It Affect Bug-Fixing Time? The Case of the Apache Hadoop Project".
 
 # Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── external       <- Data from third party sources.
@@ -18,7 +17,6 @@ Projeto para o TCC
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
     │                         the creator's initials, and a short `-` delimited description, e.g.
@@ -37,50 +35,34 @@ Projeto para o TCC
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
     │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
     │   │
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── pyproject.toml            <- File responsible for configuring the Poetry virtual environment
 
 # About the study
-In this study, we are intended to investigate to which extent (if exists) the social interactions correlates with the bug-fixing time and how we can visualize those interactions.
+Context: Open-source (OS) projects rely heavily on collaborative developer contributions for various development activities, including bug fixing. While many studies have explored different factors influencing bug fixing, to the best of our knowledge, none have explicitly analyzed how developer contribution relates to bug priority and affects bug resolution time. Consequently, understanding the interplay between different levels of developer contribution and bug priority on bug resolution time remains unclear. Goal: This study aims to investigate the effects of developer contribution on bug resolution time within the Apache Hadoop project, considering the different bug priorities. Method: We conducted an exploratory
+study analyzing 10,375 bug reports from four projects within the Hadoop project. We performed a detailed analysis of how bug priority and developer contribution relate, utilizing a novel index (c-score) proposed by us that incorporates metrics such as comments, commits, and authors. Additionally, we analyzed correlations be-
+tween bug priority, developer contributions, and bug resolution times. Results: We found that bugs with a greater community involvement measured by the number of commits, comments, and authors do not necessarily have a shorter bug resolution time. Finally, different levels of developer contribution, as measured by the
+c-score, influence bug resolution times variably across bug priority categories. Conclusion: This study contributes by: (i) proposing a metric (c-index) for the level of developer contribution in free software projects; (ii) identifying how varying levels of developer contributions influence bug resolution time; and (iii) highlighting the use of community involvement metrics and their role in bug resolution efficiency. We expect that our findings underscore the importance of understanding bug resolution dynamics in OS projects,
+particularly emphasizing aspects related to developer contributions.
 
-The multi-component dimension:
-- The Hadoop project has four main components: CORE, YARN, HDFS, and MAP REDUCE
+# Instructions
+To generate the dashboard locally and generate the same graphs as the study produced, it is necessary to install Poetry on your machine (allowing dependency management within a virtual environment).
 
-The multi-person dimension:
-- The contributor who reports a bug
-- The contributor who was assigned to a bug
-- The contributors who comment on the bug report
-- The contributors who commit the fixing code
-*The contributors can be committers and non-committers. Some contributors have an official public role in the project (RE or QA)
+Run the ```poetry build``` command to generate the virtual environment with the necessary dependencies, and then ```poetry shell``` to start the virtual environment.
 
-The multi-version dimension:
-- The project versions that are affected by a bug
-- The project versions in which the bug-fixing took place
-- The timeline of 10 years official project releases
+After that, just run the command ```streamlit run main.py``` to host the dashboard locally and access it from localhost.
 
-Study Variables
-- engagement level (independent): computes how deep a maintainer gets involved in a bug-fixing task.
-- engagement frequency (independent): computes how frequently a maintainer gets engaged in bug-fixing tasks overtime after his first contribution.
-- bug-fixing time (dependent): the total amount of time required to fix a bug.
+All graphs generated are saved in reports/figures and you can download the png of the graphs from the dashboard itself.
 
-Some possible research questions:
-Do bugs fixed by more active maintainers correlate with bug-fixing time?
-Do bugs fixed by active maintainers of multi-components correlate with bug-fixing time?
-Do bugs fixed by more active maintainers correlate with presence of unit test code in fixing commits?
-Do bugs fixed by more active maintainers correlate with affected versions?
-Do bugs fixed by more active maintainers correlate with fixed versions?
+
+
+
+
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

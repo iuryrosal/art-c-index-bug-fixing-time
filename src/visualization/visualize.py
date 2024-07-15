@@ -36,38 +36,38 @@ def analysis_timefixbug_scatters(dataset):
     st.write("A seleção da classe irá impactar nos gráficos de dispersão")
     classes = ["Priority", "ChangeType"]
     classe = st.selectbox("Classe Categórica", classes)
-    st.title("Gráfico de Dispersão do TimeFixBug em função de variáveis de envolvimento nas issues")
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="NoComments", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="NoCommits", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="NoAuthors", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="NoMethods", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="LoC", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="CyC", classe=classe)
-    graphs.scatter(dataset=dataset, var1="TimeFixBug", var2="NoTokens", classe=classe)
+    st.title("Gráfico de Dispersão do BFT em função de variáveis de envolvimento nas issues")
+    graphs.scatter(dataset=dataset, var1="BFT", var2="NoComments", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="NoCommits", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="NoAuthors", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="NoMethods", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="LoC", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="CyC", classe=classe)
+    graphs.scatter(dataset=dataset, var1="BFT", var2="NoTokens", classe=classe)
 
     st.title("Matriz de Correlação")
-    array_variables_corr = ["TimeFixBug", "NoComments", "NoAttachments", "NoAttachedPatches", 
+    array_variables_corr = ["BFT", "NoComments", "NoAttachments", "NoAttachedPatches", 
                             "NoCommits", "NoAuthors", "NoCommitters", "NonSrcAddFiles", 
                             "NonSrcDelFiles", "NonSrcModFiles", "NonSrcAddLines", "NonSrcDelLines"]
     graphs.heatmap_corr(dataset, array_variables_corr)
 
 def analysis_timefixbug_distributed_1(dataset):
-    st.title("Distribuição de TimeFixBug")
-    graphs.monovariada_numerico("TimeFixBug", dataset)
+    st.title("Distribuição de BFT")
+    graphs.monovariada_numerico("BFT", dataset)
 
-    st.title("Gráficos de Distribuição de TimeFixBug em função de variável categórica")
-    graphs.violinplot_boxplot("TimeFixBug", "Priority", dataset)
-    graphs.violinplot_boxplot("TimeFixBug", "ChangeType", dataset)
-    graphs.violinplot_boxplot("TimeFixBug", "ContributionLevel", dataset)
+    st.title("Gráficos de Distribuição de BFT em função de variável categórica")
+    graphs.violinplot_boxplot("BFT", "Priority", dataset)
+    graphs.violinplot_boxplot("BFT", "ChangeType", dataset)
+    graphs.violinplot_boxplot("BFT", "ContributionLevel", dataset)
 
 def analysis_timefixbug_distributed_2(dataset):
-    st.title("Gráficos de Distribuição de TimeFixBug em função de Número de Autores")
-    graphs.violinplot_boxplot_split("TimeFixBug", "Priority", "AuthorsFreq", dataset)
-    graphs.violinplot_boxplot_split("TimeFixBug", "ContributionLevel", "AuthorsFreq", dataset)
+    st.title("Gráficos de Distribuição de BFT em função de Número de Autores")
+    graphs.violinplot_boxplot_split("BFT", "Priority", "AuthorsFreq", dataset)
+    graphs.violinplot_boxplot_split("BFT", "ContributionLevel", "AuthorsFreq", dataset)
 
-    st.title("Gráficos de Distribuição de TimeFixBug em função de Número de Comentários")
-    graphs.violinplot_boxplot_split("TimeFixBug", "Priority", "CommentsFreq", dataset)
-    graphs.violinplot_boxplot_split("TimeFixBug", "ContributionLevel", "CommentsFreq", dataset)
+    st.title("Gráficos de Distribuição de BFT em função de Número de Comentários")
+    graphs.violinplot_boxplot_split("BFT", "Priority", "CommentsFreq", dataset)
+    graphs.violinplot_boxplot_split("BFT", "ContributionLevel", "CommentsFreq", dataset)
 
 def top_ids(dataset, id):
     st.title(f"Top 15 - {id}")
@@ -78,7 +78,7 @@ def engagement_devs(dataset):
     st.title("Quantidade de Desenvolvedores em cada Engajamento")
     dataset_1 = dataset[["ContributionLevel", "Author"]]
     dataset_1.drop_duplicates(inplace=True)
-    graphs.bar_categorical_count("ContributionLevel", dataset_1, frequency_element="Desenvolvedores")
+    graphs.bar_categorical_count("ContributionLevel", dataset_1, frequency_element="Developers")
 
     st.title("C-index em cada Engajamento")
     st.write("Low Contribution")

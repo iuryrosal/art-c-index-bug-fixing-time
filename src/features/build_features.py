@@ -6,7 +6,7 @@ import duckdb
 
 class CreateFeature():  
     def build_timefixbug(self, dataSetOriginal):
-        dataSetOriginal["TimeFixBug"] = ((dataSetOriginal["ResolutionDate"] - dataSetOriginal["CreationDate"]).dt.days)
+        dataSetOriginal["BFT"] = ((dataSetOriginal["ResolutionDate"] - dataSetOriginal["CreationDate"]).dt.days)
         return dataSetOriginal
 
     def _build_no_commits(self, dataSetOriginal):
@@ -138,7 +138,7 @@ class CreateFeature():
         return result
 
     def build_category_dev(self, dataSetOriginal, snapshot_file, comment_file, commit_file):
-        timefixbug_mean = dataSetOriginal[['Committer', 'TimeFixBug']].groupby(by=["Committer"]).median().values
+        timefixbug_mean = dataSetOriginal[['Committer', 'BFT']].groupby(by=["Committer"]).median().values
         timefixbug_mean = timefixbug_mean.reshape((139,))
 
         ids_grouped = dataSetOriginal["Committer"].unique()
@@ -148,7 +148,7 @@ class CreateFeature():
         data_items = a_dictionary_commiters.items()
         data_list = list(data_items)
 
-        committers = pd.DataFrame(data_list, columns=['Committer', 'TimeFixBugMean'])
+        committers = pd.DataFrame(data_list, columns=['Committer', 'BFTMean'])
 
         committers['NoCommits'] = committers['Committer'].map(self._build_no_commits(commit_file))
         committers['NoAssignee'] = committers['Committer'].map(self._build_no_assignees(snapshot_file))

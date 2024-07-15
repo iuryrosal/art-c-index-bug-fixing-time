@@ -5,22 +5,23 @@ import numpy as np
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from plotly.io import write_image
 
-colors_by_class = {"Priority": {"Trivial": "#FEF0D9",
-                                "Minor": "#F9B688",
-                                "Major": "#FE0000",
-                                "Normal": "#FE0000",
-                                "Critical": "#B30000",
-                                "Blocker": "#7F1919",
-                                "Urgent": "#7F1919"},
+colors_by_class = {"Priority": {"Trivial": "#FEEDDE",
+                                "Minor": "#FDBE85",
+                                "Major": "#FD8D3C",
+                                "Normal": "#FD8D3C",
+                                "Critical": "#E6550D",
+                                "Blocker": "#A63603",
+                                "Urgent": "#A63603"},
                   "ChangeType": {"MODIFY": "#003f5c",
                                  "ADD": "#665191",
                                  "RENAME": "#d45087",
                                  "DELETE": "#ff7c43",
                                  "UNKNOWN": "#ffa600"},
-                  "ContributionLevel": {"Low Contribution": "#57D1A4",
-                                 "Medium Contribution": "#8FFFAF",
-                                 "High Contribution": "#008927"},
+                  "ContributionLevel": {"Low Contribution": "#E5F5E0",
+                                 "Medium Contribution": "#A1D99B",
+                                 "High Contribution": "#31A354"},
                   "AuthorsFreq": {"1 Author": "#fc8d59", 
                                   ">=2 Authors": "#fef0d9"},
                   "CommentsFreq": {"< 20 Comments": "#fc8d59",
@@ -54,10 +55,10 @@ def monovariada_numerico(variable, data):
               )
 
   fig, ax = plt.subplots(figsize= (22, 10))
-  fig = px.violin(data, y=variable, box=True, points="all",
-                title=f"{variable}")
+  fig = px.histogram(data, x=variable, hover_data=data.columns, marginal="box")
   plt.show()
   st.plotly_chart(fig)
+  write_image(fig=fig, file=f"reports/figures/monovariada_numerico_{variable}.pdf", format="pdf")
 
 
 def violinplot(var1, data):
@@ -83,16 +84,17 @@ def bar_categorical_count(classe, dataset, frequency_element="commits"):
                           text=[counts[category]]
                           ))
   fig.update_layout(
-    title_text=f"Quantidade de {frequency_element} <br>por {classe}",
+    #title_text=f"Quantidade de {frequency_element} <br>por {classe}",
     xaxis_title=classe,
-    yaxis_title="Commits",
+    yaxis_title=frequency_element,
     legend_title=classe,
     font=dict(
         family="Courier New, monospace",
-        size=12
+        size=15
     )
   )
   st.plotly_chart(fig)
+  write_image(fig=fig, file=f"reports/figures/bar_categorical_{frequency_element}_by_{classe}.pdf", format="pdf")
 
 
 # ===========================
@@ -111,12 +113,13 @@ def heatmap_combine(var1, var2, data):
 
     plt.subplot(1,2,2)
     sb.heatmap(pd.crosstab(data[var1], data[var2], normalize='index')*100, annot = True, fmt = ".2f", cmap = "PuBuGn")
-    plt.title(f"{var1} x {var2}: porcentagem - %", fontsize = 16)
+    #plt.title(f"{var1} x {var2}: porcentagem - %", fontsize = 16)
     plt.xlabel(" ")
     plt.ylabel(" ")
 
     plt.show()
     st.pyplot(fig)
+    write_image(fig=fig, file=f"reports/figures/heatmap_{var1}_x_{var2}.pdf", format="pdf")
 
 
 def boxplot(var1, var2, data):
@@ -135,27 +138,29 @@ def boxplot(var1, var2, data):
 
 
 def violinplot_boxplot(var, classe, dataset):
-  fig = go.Figure()
-  categories = order_classes[classe]
-  for category in categories:
-    fig.add_trace(go.Violin(x=dataset[classe][dataset[classe] == category],
-                            y=dataset[var][dataset[classe] == category],
-                            name=category,
-                            box_visible=True,
-                            meanline_visible=True,
-                            fillcolor=colors_by_class[classe][category],
-                            line_color='black'))
-  fig.update_layout(
-    title_text=f"Distribuição de {var}<br>em função de {classe}",
-    xaxis_title=classe,
-    yaxis_title=var,
-    legend_title=classe,
-    font=dict(
-        family="Courier New, monospace",
-        size=12
+    fig = go.Figure()
+    categories = order_classes[classe]
+    quartiles = []
+    for category in categories:
+        fig.add_trace(go.Violin(x=dataset[classe][dataset[classe] == category],
+                                y=dataset[var][dataset[classe] == category],
+                                name=category,
+                                box_visible=True,
+                                meanline_visible=True,
+                                fillcolor=colors_by_class[classe][category],
+                                line_color='black'))
+    fig.update_layout(
+      #title_text=f"Distribuição de {var}<br>em função de {classe}",
+      xaxis_title=classe,
+      yaxis_title=var,
+      legend_title=classe,
+      font=dict(
+          family="Courier New, monospace",
+          size=15
+      )
     )
-  )
-  st.plotly_chart(fig)
+    st.plotly_chart(fig)
+    write_image(fig=fig, file=f"reports/figures/violinplot_{var}_by_{classe}.pdf", format="pdf")
 
 
 # ===========================
@@ -183,16 +188,17 @@ def violinplot_boxplot_split(var, classe, split, dataset):
                           fillcolor=colors_by_class[split][categories[1]],
                           line_color='black'))
   fig.update_layout(
-    title_text=f"Distribuição de {var}<br>em função de {classe} e {split}",
+    #title_text=f"Distribuição de {var}<br>em função de {classe} e {split}",
     xaxis_title=classe,
     yaxis_title=var,
     legend_title=split,
     font=dict(
         family="Courier New, monospace",
-        size=12
+        size=15
     )
   )
   st.plotly_chart(fig)
+  write_image(fig=fig, file=f"reports/figures/violinplot_{var}_by_{classe}_split_{split}.pdf", format="pdf")
 
 def scatter(var1, var2, classe, dataset):
   df = dataset.sort_values(by=[classe])
@@ -204,16 +210,17 @@ def scatter(var1, var2, classe, dataset):
                                 line=dict(width=1,
                                             color='Black')))
   fig.update_layout(
-    title_text=f"Distribuição de {var1}<br>em função de {var2}, categorizado por {classe}",
+    #title_text=f"Distribuição de {var1}<br>em função de {var2}, categorizado por {classe}",
     xaxis_title=var1,
     yaxis_title=var2,
     legend_title=classe,
     font=dict(
         family="Courier New, monospace",
-        size=12
+        size=15
     )
   )
   st.plotly_chart(fig)
+  write_image(fig=fig, file=f"reports/figures/scatter_{var1}_x_{var2}_by_{classe}.pdf", format="pdf")
 
 
 def times_series(dataset, classe, date):
@@ -231,13 +238,13 @@ def times_series(dataset, classe, date):
                             )
                 )
   fig.update_layout(
-    title_text=f"Distribuição de Commits médios por mês <br>em função do {date}, categorizado por {classe}",
+    #title_text=f"Distribuição de Commits médios por mês <br>em função do {date}, categorizado por {classe}",
     xaxis_title=date,
     yaxis_title="Commits médios por mês",
     legend_title=classe,
     font=dict(
         family="Courier New, monospace",
-        size=12
+        size=15
     )
   )
   fig.update_xaxes(categoryorder='array', categoryarray=grouped[f"Mês/Ano {date}"].tolist())
@@ -258,18 +265,23 @@ def heatmap_corr(dataset, array_variables):
 
 
 def heatmap_categoricals(dataset, cat1, cat2):
-  st.markdown(f"## {cat1}  x  {cat2}")
-  fig, axes = plt.subplots(1, 2, figsize = (15, 10))
-  plt.subplot(1,1,1)
-  freq_two_class = dataset[[cat1, cat2]].value_counts().to_frame('counts').reset_index()
-  freq_dataframe = pd.pivot_table(freq_two_class, values="counts", index=cat1, columns=cat2, aggfunc=np.sum)
-  st.write(freq_dataframe)
-  st.write("#")
-  fig, ax = plt.subplots()
-  sb.heatmap(freq_dataframe, ax=ax, annot=True, fmt=".0f", linewidths=.5, cmap="rocket_r")
-  plt.title(f"Distribuição de Atividades - {cat1} x {cat2}")
-  st.write(fig)
-  st.markdown("----")
+    st.markdown(f"## {cat1}  x  {cat2}")
+    fig, axes = plt.subplots(1, 2, figsize = (15, 10))
+    plt.subplot(1, 1, 1)
+    freq_two_class = dataset[[cat1, cat2]].value_counts().to_frame('counts').reset_index()
+    freq_dataframe = pd.pivot_table(freq_two_class, values="counts", index=cat1, columns=cat2, aggfunc=np.sum)
+    st.write(freq_dataframe)
+    fig = px.imshow(freq_dataframe, text_auto=True, aspect="auto", color_continuous_scale=px.colors.sequential.Greens)
+    # plt.title(f"Distribuição de Atividades - {cat1} x {cat2}")
+    fig.update_layout(
+        yaxis = dict(
+                        categoryorder="category ascending",
+                        ticktext=["High", "Low", "Medium"],
+                        tickvals=[0, 1, 2]
+        )
+    )
+    st.plotly_chart(fig)
+    write_image(fig=fig, file=f"reports/figures/heatmap_{cat1}_x_{cat2}.pdf", format="pdf")
 
 
 def slope_chart(dataset, class_, var1, var2):
@@ -282,22 +294,22 @@ def slope_chart(dataset, class_, var1, var2):
   for i, v in enumerate(classe):
       temp = dataset[dataset[f'{class_}'] == v]
       plt.plot(temp[f"{var1}"], counts[v], color=colors[i], lw=2.5)
-              
+
       plt.text(temp[f"{var1}"]+0.02, 
               counts[v], 
               '{:,.2f}'.format(counts[v]))
-      
+
       plt.text(temp[f"{var1}"]-0.02, 
               counts[v], 
               '{:,.2f}'.format(counts[v]), 
               va='center', ha='right')
-      
+
       correction = 0
       if v == 'Canada': correction = 500
       plt.text(2018.5, 
               temp.Value.values[1] - correction, 
               v, color=colors[i],
-              va='center', ha='center', fontsize=14)
+              va='center', ha='center', fontsize=15)
   # plt.xlim(2017.5,2019.5)
   plt.xticks(["N° Desenvolvedores", "N° Commits"])
   plt.yticks([])

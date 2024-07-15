@@ -24,5 +24,5 @@ class TransformData():
     return data_set_transformed
 
   def remove_outlier_timefixbug(self, dataSetOriginal):
-    data_set_transformed = dataSetOriginal[dataSetOriginal.TimeFixBug <= 95] 
+    data_set_transformed = dataSetOriginal[dataSetOriginal.BFT <= 95] 
     return data_set_transformed

@@ -35,9 +35,9 @@ def main():
         analysis_options = ["Geral",
                            "Detalhes Técnicos",
                            "IDs",
-                           "TimeFixBug - Dispersão",
-                           "TimeFixBug - Distribuição I",
-                           "TimeFixBug - Distribuição II",
+                           "BFT - Dispersão",
+                           "BFT - Distribuição I",
+                           "BFT - Distribuição II",
                            "Engajamento de Desenvolvedores",
                            "Comentários",
                            "Autores (Devs)"
@@ -55,7 +55,7 @@ def main():
                 pop_up(CTA="ℹ Obtenção da base de dados",
                         title="Detalhes sobre as transformações e tratamentos",
                         body="""A base foi obtida a partir de um merge entre a snapshot e a commit. 
-                                Remoção de Outliers (TimeFixBug <= 95). 
+                                Remoção de Outliers (BFT <= 95). 
                                 Remoção das colunas: ["Owner", "Manager_x", "Manager_y", "Category_x", 
                                 "Category_y", "AffectsVersions", "FixVersions", "NoWatchers", "CommitHash", 
                                 "InwardIssueLinks", "OutwardIssueLinks", "IsMergeCommit", 
@@ -84,9 +84,9 @@ def main():
                 top_ids(dataset_final, "Reporter")
                 top_ids(dataset_final, "Author")
 
-        elif analysis_type == "TimeFixBug - Dispersão":
-                pop_up(CTA="ℹ Entenda sobre a variável de TimeFixBug",
-                        title="Variável Tempo de Resolução de Bug (TimeFixBug)",
+        elif analysis_type == "BFT - Dispersão":
+                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
+                        title="Variável Tempo de Resolução de Bug (BFT)",
                         body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
                                 Essa variável é exibida em dias.
                         """)
@@ -95,9 +95,9 @@ def main():
 
                 analysis_timefixbug_scatters(dataset_filtered, )
 
-        elif analysis_type == "TimeFixBug - Distribuição I":
-                pop_up(CTA="ℹ Entenda sobre a variável de TimeFixBug",
-                        title="Variável Tempo de Resolução de Bug (TimeFixBug)",
+        elif analysis_type == "BFT - Distribuição I":
+                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
+                        title="Variável Tempo de Resolução de Bug (BFT)",
                         body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
                                 Essa variável é exibida em dias.
                         """)
@@ -106,9 +106,9 @@ def main():
 
                 analysis_timefixbug_distributed_1(dataset_filtered)
 
-        elif analysis_type == "TimeFixBug - Distribuição II":
-                pop_up(CTA="ℹ Entenda sobre a variável de TimeFixBug",
-                        title="Variável Tempo de Resolução de Bug (TimeFixBug)",
+        elif analysis_type == "BFT - Distribuição II":
+                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
+                        title="Variável Tempo de Resolução de Bug (BFT)",
                         body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
                                 Essa variável é exibida em dias.
                         """)

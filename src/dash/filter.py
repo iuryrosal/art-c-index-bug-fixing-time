@@ -10,12 +10,12 @@ def show_filter(dataset, menu_option=None):
     ###################
     # OPÇÕES DE FILTRO
     ###################
-    if menu_option == "TimeFixBug - Distribuição I" or menu_option == "TimeFixBug - Distribuição II" or menu_option == "TimeFixBug - Dispersão":
-        st.sidebar.write("TimeFixBug range")
+    if menu_option == "BFT - Distribuição I" or menu_option == "BFT - Distribuição II" or menu_option == "BFT - Dispersão":
+        st.sidebar.write("BFT range")
 
-        time_fix_selected = st.sidebar.slider("Escolha o intervalo de TimeFixBug desejado", 0, 100, [0, 100], step=10)
-        after_time_fix = dataset_filtered["TimeFixBug"] >= time_fix_selected[0]
-        before_time_fix = dataset_filtered["TimeFixBug"] <= time_fix_selected[1]
+        time_fix_selected = st.sidebar.slider("Escolha o intervalo de BFT desejado", 0, 100, [0, 100], step=10)
+        after_time_fix = dataset_filtered["BFT"] >= time_fix_selected[0]
+        before_time_fix = dataset_filtered["BFT"] <= time_fix_selected[1]
         between_two_times = after_time_fix & before_time_fix
         dataset_filtered = dataset_filtered.loc[between_two_times]
 

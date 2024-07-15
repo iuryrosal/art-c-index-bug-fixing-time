@@ -1,4 +1,4 @@
-analise-devbigdata
+How Can We Measure Developer Contribution and How Does It Affect Bug-Fixing Time? The Case of the Apache Hadoop Project
 ==============================
 
 # Description

@@ -32,31 +32,31 @@ def load_data():
 
 
 def main():
-        analysis_options = ["Geral",
-                           "Detalhes Técnicos",
+        analysis_options = ["General",
+                           "Technic Details",
                            "IDs",
-                           "BFT - Dispersão",
-                           "BFT - Distribuição I",
-                           "BFT - Distribuição II",
-                           "Engajamento de Desenvolvedores",
-                           "Comentários",
-                           "Autores (Devs)"
+                           "BFT - Dispersion",
+                           "BFT - Distribution I",
+                           "BFT - Distribution II",
+                           "Developer Contribution",
+                           "Comments",
+                           "Authors (Devs)"
                         ]
-        analysis_type = st.sidebar.selectbox("Tipo de Analise", analysis_options)
+        analysis_type = st.sidebar.selectbox("Analysis Type", analysis_options)
 
         dataset_final = load_data()
 
-        if analysis_type == "Geral":
+        if analysis_type == "General":
                 dataset_filtered = show_filter(dataset_final)
 
                 analysis_general(dataset_filtered)
 
-        elif analysis_type == "Detalhes Técnicos":
-                pop_up(CTA="ℹ Obtenção da base de dados",
-                        title="Detalhes sobre as transformações e tratamentos",
-                        body="""A base foi obtida a partir de um merge entre a snapshot e a commit. 
-                                Remoção de Outliers (BFT <= 95). 
-                                Remoção das colunas: ["Owner", "Manager_x", "Manager_y", "Category_x", 
+        elif analysis_type == "Technic Details":
+                pop_up(CTA="ℹ Obtaining the database",
+                        title="Details about transformations and treatments",
+                        body="""The base was obtained from a merge between the snapshot and the commit. 
+                                Removal of Outliers (BFT <= 95). 
+                                Removal of columns: ["Owner", "Manager_x", "Manager_y", "Category_x", 
                                 "Category_y", "AffectsVersions", "FixVersions", "NoWatchers", "CommitHash", 
                                 "InwardIssueLinks", "OutwardIssueLinks", "IsMergeCommit", 
                                 "Project_y", "Status", "HasMergeCommit"]
@@ -84,39 +84,39 @@ def main():
                 top_ids(dataset_final, "Reporter")
                 top_ids(dataset_final, "Author")
 
-        elif analysis_type == "BFT - Dispersão":
-                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
-                        title="Variável Tempo de Resolução de Bug (BFT)",
-                        body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
-                                Essa variável é exibida em dias.
+        elif analysis_type == "BFT - Dispersion":
+                pop_up(CTA="ℹ Understand the BFT variable",
+                        title="Bug-Fixing Time (BFT) Variable",
+                        body="""Variable resulting from the difference between the bug report creation data (CreationDate) and the bug resolution data (ResolutionDate)
+                                This variable is displayed in days.
                         """)
 
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
 
                 analysis_timefixbug_scatters(dataset_filtered, )
 
-        elif analysis_type == "BFT - Distribuição I":
-                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
-                        title="Variável Tempo de Resolução de Bug (BFT)",
-                        body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
-                                Essa variável é exibida em dias.
+        elif analysis_type == "BFT - Distribution I":
+                pop_up(CTA="ℹ Understand the BFT variable",
+                        title="Bug-Fixing Time (BFT) Variable",
+                        body="""Variable resulting from the difference between the bug report creation data (CreationDate) and the bug resolution data (ResolutionDate)
+                                This variable is displayed in days.
                         """)
 
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
 
                 analysis_timefixbug_distributed_1(dataset_filtered)
 
-        elif analysis_type == "BFT - Distribuição II":
-                pop_up(CTA="ℹ Entenda sobre a variável de BFT",
-                        title="Variável Tempo de Resolução de Bug (BFT)",
-                        body="""Variável obtida pela diferença entre a data de criação do report do bug (CreationDate) e a data de resolução do bug (ResolutionDate)
-                                Essa variável é exibida em dias.
+        elif analysis_type == "BFT - Distribution II":
+                pop_up(CTA="ℹ Understand the BFT variable",
+                        title="Bug-Fixing Time (BFT) Variable",
+                        body="""Variable resulting from the difference between the bug report creation data (CreationDate) and the bug resolution data (ResolutionDate)
+                                This variable is displayed in days.
                         """)
 
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
 
                 analysis_timefixbug_distributed_2(dataset_filtered)
-        elif analysis_type == "Engajamento de Desenvolvedores":
+        elif analysis_type == "Developer Contribution":
                 pop_up(CTA="ℹ Entenda sobre a variável de engajamento de desenvolvedores",
                         title="Variável Engajamento de Desenvolvedores",
                         body="""Engajamento de desenvolvedores (authors) é baseado na média de frequência de commits feitos por ano em relação a todo o período mapeado.
@@ -128,11 +128,11 @@ def main():
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
                 engagement_devs(dataset_filtered)
         
-        elif analysis_type == "Comentários":
+        elif analysis_type == "Comments":
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
                 comments(dataset_filtered)
         
-        elif analysis_type == "Autores (Devs)":
+        elif analysis_type == "Authors (Devs)":
                 dataset_filtered = show_filter(dataset_final, menu_option=analysis_type)
                 authors_analysis(dataset_filtered)
 

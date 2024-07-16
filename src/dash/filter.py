@@ -3,7 +3,7 @@ import streamlit as st
 def show_filter(dataset, menu_option=None):
     dataset_filtered = dataset
     
-    st.sidebar.title("Opções de filtro")
+    st.sidebar.title("Filter Options")
 
     info_filter = st.sidebar.empty()
     
@@ -21,13 +21,13 @@ def show_filter(dataset, menu_option=None):
 
     st.sidebar.write("CommitterDate range")
 
-    year_selected = st.sidebar.slider("Escolha o ano desejado", 2008, 2019, [2008, 2019])
+    year_selected = st.sidebar.slider("Choose the desired year", 2008, 2019, [2008, 2019])
 
     modules = ["Hadoop Core", "HDFS", "YARN", "MapReduce"]
     modules.insert(0, "All")
     modules_filter = st.sidebar.selectbox("Modules", modules)
 
-    st.sidebar.write("Autores e Reporters")
+    st.sidebar.write("Authors e Reporters")
     authors = dataset["Author"].drop_duplicates(keep="last").values.tolist()
     authors.insert(0, "All")
     author_filter = st.sidebar.selectbox("Author", authors)
@@ -36,8 +36,8 @@ def show_filter(dataset, menu_option=None):
     reporters.insert(0, "All")
     reporter_filter = st.sidebar.selectbox("Reporter", reporters)
 
-    if menu_option != "Engajamento de Desenvolvedores":
-        st.sidebar.write("Engajamento de Desenvolvedores")
+    if menu_option != "Contribution Level":
+        st.sidebar.write("Contribution Level")
         engajaments = ["All", "High Contribution", "Medium Contribution", "Low Contribution"]
         engajament_filter = st.sidebar.selectbox("ContributionLevel", engajaments)
 
@@ -60,9 +60,9 @@ def show_filter(dataset, menu_option=None):
     dataset_filtered = dataset_filtered.loc[between_two_dates]
 
     info_filter.info(f"""
-                    ℹ️ A base de dados está sendo filtrada pelo Author **{author_filter}** e 
-                    pelo Reporter **{reporter_filter}**.
-                    Considerando commits entre **{year_selected[0]}** e **{year_selected[1]}**.
+                    ℹ️ The database is being filtered by Author **{author_filter}** and 
+                    by Reporter **{reporter_filter}**.
+                    Considering commits between **{year_selected[0]}** and **{year_selected[1]}**.
                     """)
 
     return dataset_filtered

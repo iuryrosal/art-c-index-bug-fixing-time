@@ -22,21 +22,21 @@ def analysis_general(dataset):
     # st.info("Se desejar visualizar melhor um determinado período, selecione dentro do gráfico")
 
 
-    st.title("Quantidade de Commits por Prioridade ao longo do tempo (por mês)")
-    st.write("Use o menu dropdown para filtrar o tipo de projeto das tasks a serem exibidas neste gráfico em específico")
+    st.title("Number of Commits per Priority over time (per month)")
+    st.write("Use the dropdown menu to filter the project type of tasks to be displayed on this specific chart")
     graphs.times_series(dataset=dataset, classe="Priority", date="CommitterDate")
-    st.info("Se desejar visualizar melhor um determinado período, selecione dentro do gráfico")
+    st.info("If you want to better visualize a certain period, select it within the chart")
 
-    st.title("Estatísticas")    
+    st.title("Statistics")    
     graphs.bar_categorical_count("Priority", dataset)
     graphs.bar_categorical_count("ContributionLevel", dataset)
 
 def analysis_timefixbug_scatters(dataset):
-    st.title("Seleção de Feature")
-    st.write("A seleção da classe irá impactar nos gráficos de dispersão")
+    st.title("Feature Selection")
+    st.write("Class selection will impact scatterplots")
     classes = ["Priority", "ChangeType"]
-    classe = st.selectbox("Classe Categórica", classes)
-    st.title("Gráfico de Dispersão do BFT em função de variáveis de envolvimento nas issues")
+    classe = st.selectbox("Categorical Class", classes)
+    st.title("BFT Scatterplot depending on variables involved in issues")
     graphs.scatter(dataset=dataset, var1="BFT", var2="NoComments", classe=classe)
     graphs.scatter(dataset=dataset, var1="BFT", var2="NoCommits", classe=classe)
     graphs.scatter(dataset=dataset, var1="BFT", var2="NoAuthors", classe=classe)
@@ -45,27 +45,27 @@ def analysis_timefixbug_scatters(dataset):
     graphs.scatter(dataset=dataset, var1="BFT", var2="CyC", classe=classe)
     graphs.scatter(dataset=dataset, var1="BFT", var2="NoTokens", classe=classe)
 
-    st.title("Matriz de Correlação")
+    st.title("Correlation Matrix")
     array_variables_corr = ["BFT", "NoComments", "NoAttachments", "NoAttachedPatches", 
                             "NoCommits", "NoAuthors", "NoCommitters", "NonSrcAddFiles", 
                             "NonSrcDelFiles", "NonSrcModFiles", "NonSrcAddLines", "NonSrcDelLines"]
     graphs.heatmap_corr(dataset, array_variables_corr)
 
 def analysis_timefixbug_distributed_1(dataset):
-    st.title("Distribuição de BFT")
+    st.title("BFT Distribution")
     graphs.monovariada_numerico("BFT", dataset)
 
-    st.title("Gráficos de Distribuição de BFT em função de variável categórica")
+    st.title("BFT Distribution Graphs as a function of categorical variable")
     graphs.violinplot_boxplot("BFT", "Priority", dataset)
     graphs.violinplot_boxplot("BFT", "ChangeType", dataset)
     graphs.violinplot_boxplot("BFT", "ContributionLevel", dataset)
 
 def analysis_timefixbug_distributed_2(dataset):
-    st.title("Gráficos de Distribuição de BFT em função de Número de Autores")
+    st.title("BFT Distribution Charts as a function of Number of Authors")
     graphs.violinplot_boxplot_split("BFT", "Priority", "AuthorsFreq", dataset)
     graphs.violinplot_boxplot_split("BFT", "ContributionLevel", "AuthorsFreq", dataset)
 
-    st.title("Gráficos de Distribuição de BFT em função de Número de Comentários")
+    st.title("BFT Distribution Charts as a function of Number of Comments")
     graphs.violinplot_boxplot_split("BFT", "Priority", "CommentsFreq", dataset)
     graphs.violinplot_boxplot_split("BFT", "ContributionLevel", "CommentsFreq", dataset)
 
@@ -75,12 +75,12 @@ def top_ids(dataset, id):
     st.write(top[f"{id}"].value_counts())
 
 def engagement_devs(dataset):
-    st.title("Quantidade de Desenvolvedores em cada Engajamento")
+    st.title("Number of Developers at each contribution level")
     dataset_1 = dataset[["ContributionLevel", "Author"]]
     dataset_1.drop_duplicates(inplace=True)
     graphs.bar_categorical_count("ContributionLevel", dataset_1, frequency_element="Developers")
 
-    st.title("C-index em cada Engajamento")
+    st.title("C-index in each Contribution Level")
     st.write("Low Contribution")
     st.write(dataset.query("ContributionLevel == 'Low Contribution'")["CIndex"].describe())
     st.write("Medium Contribution")
@@ -91,23 +91,23 @@ def engagement_devs(dataset):
 
     graphs.bar_categorical_count("ContributionLevel", dataset)
 
-    st.title("Distribuição de Commits por Nível de Engajamento")
+    st.title("Distribution of Commits by Contribution Level")
     graphs.heatmap_categoricals(dataset, "ContributionLevel", "Priority")
 
 def comments(dataset):
-    st.title("Distribuição de NoComments")
+    st.title("Distribution of NoComments")
     graphs.monovariada_numerico("NoComments", dataset)
 
-    st.title("Gráficos de Distribuição de NoComments em função de variável categórica")
+    st.title("NoComments Distribution Graphs as a function of categorical variable")
     graphs.violinplot_boxplot("NoComments", "Priority", dataset)
     graphs.violinplot_boxplot("NoComments", "ChangeType", dataset)
     graphs.violinplot_boxplot("NoComments", "ContributionLevel", dataset)
 
 def authors_analysis(dataset):
-    st.title("Distribuição de NoAuthors")
+    st.title("Distribution of NoAuthors")
     graphs.monovariada_numerico("NoAuthors", dataset)
 
-    st.title("Gráficos de Distribuição de NoAuthors em função de variável categórica")
+    st.title("NoAuthors Distribution Graphs as a function of categorical variable")
     graphs.violinplot_boxplot("NoAuthors", "Priority", dataset)
     graphs.violinplot_boxplot("NoAuthors", "ChangeType", dataset)
     graphs.violinplot_boxplot("NoAuthors", "ContributionLevel", dataset)
